@@ -1,0 +1,15 @@
+node_modules
+dist
+coverage
+*.local
+.vite
+
+# personal notes and the problem statement, not part of the submission
+docs/
+
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea
+npm-debug.log*
