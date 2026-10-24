@@ -1,8 +1,17 @@
 # Tic Tac Toe
 
+[![Deploy](https://github.com/nivi26-coder/ABB-tic-tac-toe-assignment/actions/workflows/deploy.yml/badge.svg)](https://github.com/nivi26-coder/ABB-tic-tac-toe-assignment/actions/workflows/deploy.yml)
+
+**▶ [Play the live demo](https://nivi26-coder.github.io/ABB-tic-tac-toe-assignment/)**
+
 A browser-based Tic Tac Toe game built with React. It supports two-player and play-against-computer modes, move history, undo, a session scoreboard and win/draw detection with highlighted winning cells.
 
 All game rules and state live in the frontend. There is no backend in this submission (see [Scope](#scope)).
+
+<p align="center">
+  <img src="screenshots/desktop.png" alt="Two player game won by X on the diagonal, with the scoreboard and move history" width="72%" />
+  <img src="screenshots/mobile.png" alt="Playing against the computer on a phone" width="22%" />
+</p>
 
 ## Tech stack
 
@@ -16,10 +25,11 @@ All game rules and state live in the frontend. There is no backend in this submi
 | Fonts              | `@fontsource/press-start-2p`, `@fontsource/vt323` (self-hosted, no CDN)         |
 | Storage            | React state, scoreboard kept in `sessionStorage`                                |
 | Code quality       | ESLint 10 (React Hooks + React Refresh rules), Prettier                         |
+| CI / hosting       | GitHub Actions, GitHub Pages                                                    |
 
 ## Getting started
 
-Requires Node.js 20 or newer.
+Requires Node.js 22 (or 20.19+).
 
 ```bash
 npm install
@@ -37,6 +47,10 @@ npm run lint         # ESLint
 npm run format       # format everything with Prettier
 npm run format:check # check formatting without changing files
 ```
+
+### Deployment
+
+Every push to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). It installs dependencies, then runs lint, the format check, the tests and the production build, and publishes `dist/` to GitHub Pages. If any check fails, nothing is deployed, so the live demo always matches a passing build. Pages serves the site from `/ABB-tic-tac-toe-assignment/`, so the workflow builds with that base path; local builds are unaffected.
 
 Imports use the `@/` alias for `src/` (for example `import Board from '@/components/Board'`). It is set up in `vite.config.js`, and `jsconfig.json` lets the editor follow it.
 
@@ -181,13 +195,55 @@ The original brief describes a React frontend with a .NET REST backend that owns
 
 ## AI-assisted development
 
-This project was built with help from an AI coding assistant (Claude Code).
+I used **Claude Code** (Anthropic) as a coding assistant, as the brief allows. I set the scope, chose the approach and reviewed every change. Each change was run in the browser and covered by the test suite before it was kept.
 
-Prompt summary:
+### From requirements to specification
 
-1. Build the problem statement as a React-only app, with all game logic in the frontend.
-2. Make it responsive with an arcade look. Keep the whole game in one view with no page scroll, scroll inside panels instead, and keep the cell size fixed when a move is made.
-3. Split the styles per component into a clear folder structure, and replace older or hard-to-read code with modern, readable equivalents.
-4. Add ESLint and Prettier, keep the scoreboard in `sessionStorage`, use `@/` path aliases, add a short computer thinking delay, and support arrow-key navigation on the board.
+Before any code was written, the brief was broken down into a checklist:
 
-The generated code was then reviewed and adjusted by hand. The game rules and undo behaviour were checked against the brief, and the tests were checked against the minimum list in the brief. The UI was tested in a browser at desktop, tablet, phone and landscape sizes. Those checks found two layout problems, both now fixed: cells that changed size once a row had marks in it, and a sticky table header that lost its divider while scrolling.
+- **Core rules:** board, turns, win and draw detection, reset.
+- **Must-have features:** move history, undo per mode, scoreboard, computer mode.
+- **Quality bar:** the minimum test list, responsive UI, and a clear README.
+
+I settled the open points up front, and they are recorded under [Design decisions](#design-decisions) and [Assumptions](#assumptions): undo Option A, a React-only scope, one session scoreboard across both modes, and X always moving first.
+
+### Prompt summary
+
+I worked feature by feature, in short prompt-and-review cycles:
+
+| Stage        | What was asked for                                                                                                         |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| Core game    | Game rules as pure functions with unit tests, a reducer for moves, undo and scoreboard, and the rule-based computer player |
+| UI           | Components for every item listed in the frontend requirements, in a responsive single-screen layout                        |
+| Structure    | A folder per component with CSS Modules, shared design tokens, and plain, readable code                                    |
+| Polish       | ESLint and Prettier, a session-persisted scoreboard, `@/` import aliases, a short computer delay, keyboard navigation      |
+| Verification | Requirement-by-requirement check against the brief, and tests for every case in the brief's minimum list                   |
+
+### What the AI generated
+
+- Project setup: Vite, Vitest, ESLint and Prettier configuration
+- Game logic, the reducer and the `useTicTacToe` hook
+- React components and their CSS Modules
+- Unit and UI tests
+- The first draft of this README
+
+### What I changed after review
+
+- Limited the scope to the React app, and kept the reducer actions aligned with the suggested REST endpoints so a backend can be added later.
+- Gave the move history its own fixed-width column after seeing that a long game pushed the board down and shrank it.
+- Fixed the board cells to a constant size after noticing that they resized when a mark was placed.
+- Replaced a single global stylesheet with a folder per component and CSS Modules.
+- Replaced less familiar or overly clever code with plain equivalents, for example a `<ul>` instead of a `<dl>` for the scoreboard and simple `if` steps instead of a chained `??` expression for the computer move.
+
+### What I reviewed closely
+
+- Move validation and its error messages
+- Undo in both modes, including undo while the computer is still "thinking"
+- That a finished game updates the scoreboard exactly once
+- The computer's move order against the brief (win, block, center, corner, any free cell)
+- Test coverage against the brief's minimum test list
+- The layout in a browser at desktop, tablet, phone and landscape sizes
+
+### Assumptions and trade-offs
+
+These are covered in [Design decisions](#design-decisions), [Assumptions](#assumptions), [Scope](#scope) and [Known limitations](#known-limitations).
