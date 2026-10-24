@@ -1,0 +1,104 @@
+/* the board is sized from the space left in the play area, never from its content */
+.wrap {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  width: 100%;
+  min-height: 0;
+  container-type: size;
+}
+
+.board {
+  --size: min(100cqw, 100cqh, 540px);
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: calc(var(--size) * 0.025);
+  width: var(--size);
+  height: var(--size);
+}
+
+.cell {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid var(--line);
+  background: var(--cell);
+  font-family: var(--pixel);
+  font-size: calc(var(--size) * 0.12);
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color 0.12s,
+    box-shadow 0.12s;
+}
+
+.cell[aria-disabled='true'] {
+  cursor: default;
+}
+
+.waiting .cell {
+  cursor: progress;
+}
+
+.x {
+  color: var(--x);
+  text-shadow:
+    0 0 8px var(--x),
+    0 0 22px var(--x-dim);
+}
+
+.o {
+  color: var(--o);
+  text-shadow:
+    0 0 8px var(--o),
+    0 0 22px var(--o-dim);
+}
+
+.board[data-turn='X'] .cell:hover:not([aria-disabled='true']) {
+  border-color: var(--x);
+  box-shadow: inset 0 0 18px rgb(47 243 255 / 20%);
+}
+
+.board[data-turn='O'] .cell:hover:not([aria-disabled='true']) {
+  border-color: var(--o);
+  box-shadow: inset 0 0 18px rgb(255 63 164 / 20%);
+}
+
+/* faint preview of the mark that is about to be placed */
+.board[data-turn='X'] .cell:hover:not([aria-disabled='true'])::after {
+  content: 'X';
+  color: var(--x);
+  opacity: 0.25;
+}
+
+.board[data-turn='O'] .cell:hover:not([aria-disabled='true'])::after {
+  content: 'O';
+  color: var(--o);
+  opacity: 0.25;
+}
+
+.locked .cell:not(.winning) {
+  opacity: 0.4;
+}
+
+.winning {
+  border-color: var(--win);
+  background: rgb(182 255 59 / 16%);
+  box-shadow: 0 0 18px rgb(182 255 59 / 45%);
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    background: var(--cell);
+    box-shadow: none;
+  }
+}

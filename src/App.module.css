@@ -1,0 +1,128 @@
+/* the whole app is exactly one screen tall, only the history panel scrolls */
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  max-width: 1280px;
+  height: 100dvh;
+  margin: 0 auto;
+  padding: var(--pad) clamp(10px, 2.5vw, 32px);
+}
+
+.header {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--pixel);
+  font-size: clamp(1rem, 2.4vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tic {
+  color: var(--x);
+  text-shadow:
+    0 0 6px var(--x),
+    0 0 18px var(--x-dim);
+}
+
+.tac {
+  color: var(--o);
+  text-shadow:
+    0 0 6px var(--o),
+    0 0 18px var(--o-dim);
+}
+
+.toe {
+  color: var(--gold);
+  text-shadow:
+    0 0 6px var(--gold),
+    0 0 18px var(--gold-dim);
+}
+
+/* history has its own fixed-width column, so a long game never pushes the board around */
+.layout {
+  display: flex;
+  flex: 1;
+  gap: var(--gap);
+  min-height: 0;
+}
+
+.gameColumn {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--gap);
+  min-width: 0;
+  min-height: 0;
+}
+
+.scoreboard {
+  flex: none;
+}
+
+.playArea {
+  position: relative;
+  flex: 1;
+  align-items: center;
+  gap: var(--gap);
+}
+
+.history {
+  flex: none;
+  width: clamp(260px, 26vw, 330px);
+}
+
+/* floats above the controls so showing it never shifts the layout */
+.error {
+  position: absolute;
+  bottom: calc(var(--control-height) + var(--pad) + var(--gap));
+  left: 50%;
+  z-index: 2;
+  width: max-content;
+  max-width: calc(100% - 2 * var(--pad));
+  margin: 0;
+  padding: 6px 12px;
+  border: 2px solid var(--danger);
+  background: var(--panel-solid);
+  color: var(--danger);
+  font-size: 1.15rem;
+  text-align: center;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+/* phones: not enough width for a side column, so history sits under the board at a fixed height */
+@media (max-width: 640px) {
+  .header {
+    justify-content: center;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+
+  .history {
+    width: auto;
+    height: clamp(96px, 20dvh, 200px);
+  }
+}
+
+@media (max-height: 560px) {
+  .header {
+    flex-wrap: nowrap;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+}

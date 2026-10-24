@@ -1,0 +1,51 @@
+.selector {
+  display: flex;
+  gap: 8px;
+}
+
+.option {
+  height: 38px;
+  padding: 0 14px;
+  border: 2px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--pixel);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.option:hover {
+  border-color: var(--gold-dim);
+  color: var(--text);
+}
+
+/* the selected mode is styled from aria-pressed, so looks and accessibility can't drift apart */
+.option[aria-pressed='true'] {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--bg);
+  box-shadow: 0 0 14px var(--gold-dim);
+}
+
+@media (max-width: 640px) {
+  .selector {
+    width: 100%;
+  }
+
+  .option {
+    flex: 1;
+    padding: 0 8px;
+  }
+}
+
+@media (max-height: 560px) {
+  .option {
+    height: 32px;
+  }
+}

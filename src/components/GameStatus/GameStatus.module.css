@@ -1,0 +1,72 @@
+.status {
+  flex: none;
+  width: min(100%, 540px);
+  text-align: center;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 1.15rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* fixed height so a longer message never pushes the board around */
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 40px;
+  margin: 8px 0 0;
+  overflow: hidden;
+  font-family: var(--pixel);
+  font-size: clamp(0.6rem, 1.4vw, 0.85rem);
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.won .message {
+  color: var(--win);
+  text-shadow: 0 0 10px rgb(182 255 59 / 60%);
+  animation: blink 1.2s steps(1) infinite;
+}
+
+.draw .message {
+  color: var(--gold);
+  text-shadow: 0 0 10px var(--gold-dim);
+}
+
+.thinking .message {
+  color: var(--o);
+  animation: blink 0.6s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (max-width: 640px) {
+  .meta {
+    display: none;
+  }
+
+  .message {
+    margin-top: 0;
+  }
+}
+
+@media (max-height: 560px) {
+  .meta {
+    display: none;
+  }
+
+  .message {
+    height: 32px;
+    margin-top: 0;
+  }
+}

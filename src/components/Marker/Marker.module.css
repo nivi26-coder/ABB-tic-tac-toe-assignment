@@ -1,0 +1,28 @@
+.marker {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 2px solid currentColor;
+  font-family: var(--pixel);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.small {
+  width: 22px;
+  height: 22px;
+  border-width: 1px;
+  font-size: 0.55rem;
+}
+
+.x {
+  color: var(--x);
+  box-shadow: 0 0 8px var(--x-dim);
+}
+
+.o {
+  color: var(--o);
+  box-shadow: 0 0 8px var(--o-dim);
+}

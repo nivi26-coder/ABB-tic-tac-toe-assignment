@@ -1,0 +1,42 @@
+/*
+  Design tokens shared by every component.
+  Breakpoints used in the component styles: phones <= 640px wide, short screens <= 560px tall.
+*/
+
+:root {
+  --bg: #07051a;
+  --panel: rgb(14 10 42 / 88%);
+  --panel-solid: #0e0a2a;
+  --cell: #0b0824;
+  --line: #2a2266;
+  --text: #ece9ff;
+  --muted: #8a84c4;
+
+  --x: #2ff3ff;
+  --x-dim: rgb(47 243 255 / 45%);
+  --o: #ff3fa4;
+  --o-dim: rgb(255 63 164 / 45%);
+  --gold: #ffd400;
+  --gold-dim: rgb(255 212 0 / 45%);
+  --win: #b6ff3b;
+  --danger: #ff5a5a;
+
+  --pixel: 'Press Start 2P', 'Courier New', monospace;
+  --terminal: 'VT323', 'Courier New', monospace;
+
+  --gap: clamp(8px, 1.6vh, 16px);
+  --pad: clamp(10px, 1.6vh, 16px);
+  --control-height: 46px;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --control-height: 42px;
+  }
+}
+
+@media (max-height: 560px) {
+  :root {
+    --control-height: 36px;
+  }
+}

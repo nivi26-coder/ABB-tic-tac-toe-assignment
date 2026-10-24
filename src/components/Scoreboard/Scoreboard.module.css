@@ -1,0 +1,62 @@
+.panel {
+  padding-block: 8px;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+}
+
+.label {
+  color: var(--muted);
+  font-family: var(--pixel);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.value {
+  font-family: var(--pixel);
+  font-size: clamp(1rem, 2.4vh, 1.5rem);
+  line-height: 1;
+}
+
+.x .value {
+  color: var(--x);
+  text-shadow: 0 0 8px var(--x-dim);
+}
+
+.o .value {
+  color: var(--o);
+  text-shadow: 0 0 8px var(--o-dim);
+}
+
+.draw .value {
+  color: var(--gold);
+  text-shadow: 0 0 8px var(--gold-dim);
+}
+
+/* short screens: label and number on one line to save height */
+@media (max-height: 560px) {
+  .panel {
+    padding-block: 4px;
+  }
+
+  .item {
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+  }
+}
