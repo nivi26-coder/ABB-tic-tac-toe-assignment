@@ -1,0 +1,2 @@
+# keep LF everywhere so Prettier's check passes on every OS
+* text=auto eol=lf
